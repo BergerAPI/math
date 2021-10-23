@@ -40,9 +40,18 @@ func main() {
  */
 func input(reader *bufio.Reader) {
 	fmt.Print("Your equation: ")
-	line, _ := readline(reader)
 
-	fmt.Println(parse(lex(line)))
+	line, _ := readline(reader)
+	result := parse(lex(line))
+
+	expr, ok := result.(ExpressionNode)
+
+	// If the result isn't an expression, we can ignore it.
+	if ok {
+		fmt.Println(expr)
+	} else {
+		fmt.Println("Nothing to solve.")
+	}
 
 	// Calling the function again.
 	input(reader)

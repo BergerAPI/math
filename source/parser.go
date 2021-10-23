@@ -112,8 +112,9 @@ func expression() Node {
 func parse(_tokens []TokenMatch) Node {
 	tokens = _tokens
 
+	// Resetting
+	currentIndex = -1
 	currentToken, _ = nextToken()
-	expr := expression()
 
-	return expr
+	return expression()
 }
