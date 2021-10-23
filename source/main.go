@@ -2,8 +2,10 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
+	"reflect"
 )
 
 /**
@@ -36,6 +38,46 @@ func main() {
 }
 
 /**
+ * Returning the value of something.
+ */
+func solveNode(node Node) (int, error) {
+	switch reflect.TypeOf(node).Name() {
+	case "ExpressionNode":
+		expr, ok := node.(ExpressionNode)
+
+		if !ok {
+			fmt.Println("Something went miserably wrong.")
+			os.Exit(2)
+		}
+
+		left, _ := solveNode(expr.left)
+		right, _ := solveNode(expr.right)
+
+		switch expr.operator {
+		case "+":
+			return left + right, nil
+		case "-":
+			return left - right, nil
+		case "*":
+			return left * right, nil
+		case "/":
+			return left / right, nil
+		}
+	case "IntegerLiteralNode":
+		literal, ok := node.(IntegerLiteralNode)
+
+		if !ok {
+			fmt.Println("Something went miserably wrong.")
+			os.Exit(2)
+		}
+
+		return literal.value, nil
+	}
+
+	return 0, errors.New("there is no node like this")
+}
+
+/**
  * Scanning what the user typed in and then lexing, parsing and interpreting.
  */
 func input(reader *bufio.Reader) {
@@ -48,7 +90,14 @@ func input(reader *bufio.Reader) {
 
 	// If the result isn't an expression, we can ignore it.
 	if ok {
-		fmt.Println(expr)
+		solved, err := solveNode(expr)
+
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(2)
+		}
+
+		fmt.Println(solved)
 	} else {
 		fmt.Println("Nothing to solve.")
 	}
