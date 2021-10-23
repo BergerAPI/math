@@ -66,6 +66,12 @@ func factor() (Node, error) {
 		expect(Identifier)
 
 		return VariableAccessNode{name: currentToken.raw}, nil
+	case LeftParenthesis:
+		expect(LeftParenthesis)
+		value := expression()
+		expect(RightParenthesis)
+
+		return value, nil
 	}
 
 	return nil, errors.New("didn't find this token")

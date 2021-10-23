@@ -10,6 +10,8 @@ const (
 	IntegerLiteral     = 1
 	ArithmeticOperator = 2
 	Identifier         = 3
+	LeftParenthesis    = 4
+	RightParenthesis   = 4
 )
 
 // TokenMatch There is a match.
@@ -27,6 +29,16 @@ func IsNumeric(s string) bool {
 // isArithmeticOperator Checking if we have an "+", "-", "*", "/"
 func isArithmeticOperator(char string) bool {
 	return char == "+" || char == "-" || char == "*" || char == "/"
+}
+
+// isParenthesis checks if a string is a "("
+func isLeftParenthesis(char string) bool {
+	return char == "("
+}
+
+// isParenthesis checks if a string is a ")"
+func isRightParenthesis(char string) bool {
+	return char == ")"
 }
 
 // lex Lexing a string, and matching tokens.
@@ -55,6 +67,10 @@ func lex(line string) []TokenMatch {
 			results = append(results, TokenMatch{tokenType: IntegerLiteral, raw: raw})
 		} else if isArithmeticOperator(char) {
 			results = append(results, TokenMatch{tokenType: ArithmeticOperator, raw: char})
+		} else if isLeftParenthesis(char) {
+			results = append(results, TokenMatch{tokenType: LeftParenthesis, raw: char})
+		} else if isRightParenthesis(char) {
+			results = append(results, TokenMatch{tokenType: RightParenthesis, raw: char})
 		} else {
 
 			// Identifier
