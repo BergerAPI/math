@@ -32,7 +32,7 @@ func readline(r *bufio.Reader) (string, error) {
 func main() {
 	in := bufio.NewReader(os.Stdin)
 
-	fmt.Println("Welcome To math. Please input your math equation.")
+	fmt.Println("    \t/  /\n     /        / \n    /          / Math.\n    /          / Solve simple math equations with this fast tool.\n     /        /\n        /  /")
 
 	input(in)
 }
