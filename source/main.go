@@ -9,10 +9,10 @@ import (
 /**
  * Reading a line from an reader
  */
-func readln(r *bufio.Reader) (string, error) {
+func readline(r *bufio.Reader) (string, error) {
 	var (
-		isPrefix = true
-		err error = nil
+		isPrefix       = true
+		err      error = nil
 		line, ln []byte
 	)
 
@@ -39,7 +39,7 @@ func main() {
  * Scanning what the user typed in and then lexing, parsing and interpreting.
  */
 func input(reader *bufio.Reader) {
-	line, _ := readln(reader)
+	line, _ := readline(reader)
 	results := lex(line)
 
 	for _, value := range results {

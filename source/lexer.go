@@ -8,6 +8,7 @@ import (
 const (
 	IntegerLiteral     = 1
 	ArithmeticOperator = 2
+	Identifier         = 3
 )
 
 // TokenMatch There is a match.
@@ -22,9 +23,12 @@ func IsNumeric(s string) bool {
 	return err == nil
 }
 
-/**
- * Lexing a string, and matching tokens.
- */
+// isArithmeticOperator Checking if we have an "+", "-", "*", "/"
+func isArithmeticOperator(char string) bool {
+	return char == "+" || char == "-" || char == "*" || char == "/"
+}
+
+// lex Lexing a string, and matching tokens.
 func lex(line string) []TokenMatch {
 	var results []TokenMatch
 	index := 0
@@ -48,8 +52,28 @@ func lex(line string) []TokenMatch {
 			}
 
 			results = append(results, TokenMatch{tokenType: IntegerLiteral, raw: raw})
-		} else if char == "+" || char == "-" || char == "*" || char == "/" {
+		} else if isArithmeticOperator(char) {
 			results = append(results, TokenMatch{tokenType: ArithmeticOperator, raw: char})
+		} else {
+
+			// Identifier
+			if !isArithmeticOperator(char) && !IsNumeric(char) && char != " " {
+				raw := char
+
+				for index+1 < len(line) {
+					currentChar := string([]rune(line)[index+1])
+
+					if isArithmeticOperator(currentChar) || IsNumeric(currentChar) || currentChar == " " {
+						break
+					}
+
+					index++
+					raw += currentChar
+				}
+
+				index++
+				results = append(results, TokenMatch{tokenType: Identifier, raw: raw})
+			}
 		}
 
 		index++
