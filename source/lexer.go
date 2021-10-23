@@ -6,6 +6,7 @@ import (
 
 // Basically all tokens, with their identifier
 const (
+	EndOfLine          = 0
 	IntegerLiteral     = 1
 	ArithmeticOperator = 2
 	Identifier         = 3
@@ -79,5 +80,5 @@ func lex(line string) []TokenMatch {
 		index++
 	}
 
-	return results
+	return append(results, TokenMatch{tokenType: EndOfLine})
 }

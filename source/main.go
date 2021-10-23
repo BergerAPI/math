@@ -7,7 +7,7 @@ import (
 )
 
 /**
- * Reading a line from an reader
+ * Reading a line from a reader
  */
 func readline(r *bufio.Reader) (string, error) {
 	var (
@@ -39,12 +39,10 @@ func main() {
  * Scanning what the user typed in and then lexing, parsing and interpreting.
  */
 func input(reader *bufio.Reader) {
+	fmt.Print("Your equation: ")
 	line, _ := readline(reader)
-	results := lex(line)
 
-	for _, value := range results {
-		fmt.Println(value)
-	}
+	fmt.Println(parse(lex(line)))
 
 	// Calling the function again.
 	input(reader)
