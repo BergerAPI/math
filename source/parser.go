@@ -80,7 +80,12 @@ func term() Node {
 
 		expect(ArithmeticOperator)
 
-		right, _ := factor()
+		right, err := factor()
+
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(2)
+		}
 
 		node = ExpressionNode{operator: operator, left: node, right: right}
 	}
@@ -97,7 +102,7 @@ func expression() Node {
 
 		expect(ArithmeticOperator)
 
-		expr = ExpressionNode{operator: operator, left: expr, right: term()}
+		expr = ExpressionNode{operator: operator, left: expr, right: expression()}
 	}
 
 	return expr
